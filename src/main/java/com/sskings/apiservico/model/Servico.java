@@ -23,18 +23,20 @@ import lombok.Setter;
 @EqualsAndHashCode
 @Getter
 @Setter
-@Entity(name = "SERVICOS")
-@Table(name="SERVICOS")
+@Entity
+@Table(name = "TB_SERVICOS")
 public class Servico implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private UUID id;
-    @Column
+    @Column(nullable=false)
     private String nome;
-    @Column
+    @Column(nullable=false, precision = 10, scale = 2)
     private BigDecimal valor;
-    @Column
+    @Column(nullable=false)
     private LocalDateTime data;
     
 }

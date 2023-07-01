@@ -16,7 +16,7 @@ import jakarta.transaction.Transactional;
 public class ServicoService {
 
     @Autowired
-    private final ServicoRepository servicoRepository;
+    private ServicoRepository servicoRepository;
 
     @Transactional
     public Servico cadastrar(Servico servico){
@@ -31,4 +31,8 @@ public class ServicoService {
         return servicoRepository.findById(servicoId);
     }
     
+    @Transactional
+    public void deletar(Servico servico){
+        servicoRepository.delete(servico);
+    }
 }
