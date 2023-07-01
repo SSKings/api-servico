@@ -34,7 +34,7 @@ public class Servico implements Serializable {
     private UUID id;
     @Column(nullable=false)
     private String nome;
-    @Column(nullable=false, precision = 10, scale = 2)
+    @Column(nullable=false)
     private BigDecimal valor;
     @Column(nullable=false)
     private LocalDateTime data;

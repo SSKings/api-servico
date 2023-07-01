@@ -1,6 +1,7 @@
 package com.sskings.apiservico.controller;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ServicoController {
 
     @PostMapping
     public Servico cadastrar(@RequestBody Servico servico) {
-        servico.setData(New LocalDateTime.now());       
+        servico.setData(LocalDateTime.now(ZoneId.of("UTC")));       
         return servicoService.cadastrar(servico);
     }
     
