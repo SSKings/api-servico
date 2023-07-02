@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sskings.apiservico.dto.ServicoResponseDTO;
 import com.sskings.apiservico.model.Servico;
 import com.sskings.apiservico.repository.ServicoRepository;
 
@@ -19,8 +20,8 @@ public class ServicoService {
     private ServicoRepository servicoRepository;
 
     @Transactional
-    public Servico cadastrar(Servico servico){
-        return servicoRepository.save(servico);
+    public ServicoResponseDTO cadastrar(Servico servico){
+        return new ServicoResponseDTO(servico);
     }
 
     public List<Servico> listarServicos() {

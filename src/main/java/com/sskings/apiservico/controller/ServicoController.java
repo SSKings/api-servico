@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sskings.apiservico.dto.ServicoRequestDTO;
+import com.sskings.apiservico.dto.ServicoResponseDTO;
 import com.sskings.apiservico.model.Servico;
 import com.sskings.apiservico.service.ServicoService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,14 +35,18 @@ public class ServicoController {
     private ServicoService servicoService;
 
     @PostMapping
-    public ResponseEntity<Object> cadastrar(@RequestBody Servico servico) {
-        servico.setData(LocalDateTime.now(ZoneId.of("UTC-3")));       
+    public ResponseEntity<ServicoResponseDTO> cadastrar(@RequestBody ServicoRequestDTO obj) {
+        var servico = new Servico(obj);
+        servico.setData(LocalDateTime.now(ZoneId.of("UTC-3")));        
         return ResponseEntity.status(HttpStatus.CREATED).body(servicoService.cadastrar(servico));
     }
     
     @GetMapping
-    public ResponseEntity<List<Servico>> listar() {
-        return ResponseEntity.status(HttpStatus.OK).body(servicoService.listarServicos()) ;
+    public ResponseEntity<List<ServicoResponseDTO>> listar() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+            servicoService.listarServicos().
+            stream().map(ServicoResponseDTO::new).toList()
+        ) ;
     }
     
     @GetMapping("/{id}")

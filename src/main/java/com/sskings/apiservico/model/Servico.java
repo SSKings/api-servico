@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.sskings.apiservico.dto.ServicoRequestDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +22,7 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 @Getter
 @Setter
 @Entity
@@ -38,5 +40,10 @@ public class Servico implements Serializable {
     private BigDecimal valor;
     @Column(nullable=false)
     private LocalDateTime data;
+
+    public Servico(ServicoRequestDTO obj){
+        this.nome = obj.nome();
+        this.valor = obj.valor();  
+    } 
     
 }
