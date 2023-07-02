@@ -21,7 +21,8 @@ public class ServicoService {
 
     @Transactional
     public ServicoResponseDTO cadastrar(Servico servico){
-        return new ServicoResponseDTO(servico);
+        var dados = servicoRepository.save(servico);
+        return new ServicoResponseDTO(dados);
     }
 
     public List<Servico> listarServicos() {

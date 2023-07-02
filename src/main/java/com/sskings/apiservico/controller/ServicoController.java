@@ -53,10 +53,11 @@ public class ServicoController {
     public ResponseEntity<Object> buscar(@PathVariable(value ="id") UUID servicoId ) {
         Optional<Servico> OpServico = servicoService.buscar(servicoId);
         if(!OpServico.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("não encontrado.");      
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("não encontrado");      
         }
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(OpServico.get());
+        var response = OpServico.get();
+        return ResponseEntity.status(HttpStatus.FOUND).body(new ServicoResponseDTO(response));
     }
 
     @PutMapping("/{id}")
@@ -66,11 +67,14 @@ public class ServicoController {
         if(!OpServico.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("não encontrado.");
         }
+
         var servicoAtualizado = new Servico();
         BeanUtils.copyProperties(servico, servicoAtualizado);
         servicoAtualizado.setId(OpServico.get().getId());
         servicoAtualizado.setData(OpServico.get().getData());
-        return ResponseEntity.status(HttpStatus.OK).body(servicoService.atualizar(servicoAtualizado));
+        servicoAtualizado = servicoService.atualizar(servicoAtualizado);
+        
+        return ResponseEntity.status(HttpStatus.OK).body(new ServicoResponseDTO(servicoAtualizado));
     }
 
     @DeleteMapping("/{id}")
