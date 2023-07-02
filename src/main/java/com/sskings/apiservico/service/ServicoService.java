@@ -35,4 +35,9 @@ public class ServicoService {
     public void deletar(Servico servico){
         servicoRepository.delete(servico);
     }
+
+    @Transactional
+    public Servico atualizar(Servico servico){
+        return servicoRepository.save(servico);
+    }
 }
