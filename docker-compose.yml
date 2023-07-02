@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:alpine3.18
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: db-servico
+    ports:
+      - 5432:5432
+    cap_add:
+      - "SYS_NICE"
+
+  api:
+    build: ./
+    container_name: api-servico
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/db-servico
+    ports:
+      - 8080:8080 
