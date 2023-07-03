@@ -8,6 +8,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: db-servico
+    volumes:
+      - db_data:/var/lib/mysql
     ports:
       - 5432:5432
     cap_add:
@@ -22,3 +24,6 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/db-servico
     ports:
       - 8080:8080 
+volumes:
+  db_data:
+    name: "db_data"
