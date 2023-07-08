@@ -20,6 +20,9 @@ import com.sskings.apiservico.dto.ServicoRequestDTO;
 import com.sskings.apiservico.dto.ServicoResponseDTO;
 import com.sskings.apiservico.model.Servico;
 import com.sskings.apiservico.service.ServicoService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +38,7 @@ public class ServicoController {
     private ServicoService servicoService;
 
     @PostMapping
-    public ResponseEntity<ServicoResponseDTO> cadastrar(@RequestBody ServicoRequestDTO obj) {
+    public ResponseEntity<ServicoResponseDTO> cadastrar(@RequestBody @Valid ServicoRequestDTO obj) {
         var servico = new Servico(obj);
         servico.setData(LocalDateTime.now(ZoneId.of("UTC-3")));        
         return ResponseEntity.status(HttpStatus.CREATED).body(servicoService.cadastrar(servico));
@@ -46,7 +49,7 @@ public class ServicoController {
         return ResponseEntity.status(HttpStatus.OK).body(
             servicoService.listarServicos().
             stream().map(ServicoResponseDTO::new).toList()
-        ) ;
+        );
     }
     
     @GetMapping("/{id}")
@@ -62,14 +65,14 @@ public class ServicoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> atualizar(@PathVariable(value = "id") UUID servicoId, 
-                                            @RequestBody Servico servico ){
+                                            @RequestBody ServicoRequestDTO dto ){
         Optional<Servico> OpServico = servicoService.buscar(servicoId);
         if(!OpServico.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("não encontrado.");
         }
 
         var servicoAtualizado = new Servico();
-        BeanUtils.copyProperties(servico, servicoAtualizado);
+        BeanUtils.copyProperties(dto, servicoAtualizado);
         servicoAtualizado.setId(OpServico.get().getId());
         servicoAtualizado.setData(OpServico.get().getData());
         servicoAtualizado = servicoService.atualizar(servicoAtualizado);

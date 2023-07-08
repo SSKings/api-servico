@@ -2,6 +2,9 @@ package com.sskings.apiservico.dto;
 
 import java.math.BigDecimal;
 
-public record ServicoRequestDTO(String nome, BigDecimal valor) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record ServicoRequestDTO(@NotBlank String nome,@NotNull BigDecimal valor) {
     
 }
