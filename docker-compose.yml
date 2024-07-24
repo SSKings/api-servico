@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: db-servico
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/postgres
     ports:
       - 5432:5432
     cap_add:
